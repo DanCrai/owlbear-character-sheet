@@ -1,0 +1,16 @@
+{
+  "name": "Custom Character Sheet",
+  "version": "0.1.0",
+  "manifest_version": 1,
+  "description": "A modular, token-linked character sheet for tracking vitals and stats.",
+  "author": "S&M Studio",
+  "tags": [ "character sheet", "ttrpg", "utility" ],
+  "backgroundBehavior": "NONE",
+  "action": {
+    "title": "Character Sheet",
+    "icon": "/icon.svg",
+    "popover": "/index.html",
+    "height": 700,
+    "width": 400
+  }
+}
