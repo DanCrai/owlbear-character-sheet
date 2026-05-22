@@ -2,17 +2,17 @@ import OBR from "@owlbear-rodeo/sdk";
 
 const METADATA_KEY = "com.yourstudio.ttrpg_sheet/character_data";
 
-// Empty baseline model matching your specs
 export const createEmptySheet = () => ({
     name: "", class: "", level: 1, specialization: "", race: "",
     hpCurrent: 10, hpTotal: 10,
     manaCurrent: 5, manaTotal: 5,
     ac: 10, pa: 0, ma: 0, ms: 30, initBonus: 0,
-    abilities: [] // Array of { id, title, description }
+    // New Attributes Block
+    str: 10, dex: 10, con: 10, int: 10, wis: 10, will: 10, cha: 10,
+    abilities: []
 });
 
 export const CharacterState = {
-    // Save specific field modifications directly to the token
     saveField: async (tokenId, fieldName, value) => {
         if (!tokenId) return;
         await OBR.scene.items.updateItems([tokenId], (items) => {
@@ -25,7 +25,6 @@ export const CharacterState = {
         });
     },
 
-    // Pull all data belonging to a single token
     loadTokenData: async (tokenId) => {
         if (!tokenId) return null;
         const items = await OBR.scene.items.getItems([tokenId]);

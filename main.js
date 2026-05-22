@@ -11,8 +11,12 @@ const fieldsMap = {
     "hp-current": "hpCurrent", "hp-total": "hpTotal",
     "mana-current": "manaCurrent", "mana-total": "manaTotal",
     "stat-ac": "ac", "stat-pa": "pa", "stat-ma": "ma",
-    "stat-ms": "ms", "stat-init": "initBonus"
+    "stat-ms": "ms", "stat-init": "initBonus",
+    "attr-str": "str", "attr-dex": "dex", "attr-con": "con",
+    "attr-int": "int", "attr-wis": "wis", "attr-will": "will", "attr-cha": "cha"
 };
+
+const attributesList = ["str", "dex", "con", "int", "wis", "will", "cha"];
 
 OBR.onReady(() => {
     // Watch what token the user clicks on the map
@@ -35,24 +39,41 @@ OBR.onReady(() => {
 });
 
 // Load the data and sync inputs
+function updateModifierDisplay(attrName, scoreValue) {
+    const modElement = document.getElementById(`mod-${attrName}`);
+    if (!modElement) return;
+
+    const modifier = Math.floor((Number(scoreValue) - 10) / 2);
+    modElement.textContent = modifier >= 0 ? `+${modifier}` : `${modifier}`;
+}
+
 async function renderSheet() {
     characterData = await CharacterState.loadTokenData(currentTokenId);
     if (!characterData) return;
 
-    // Set standard fields
     for (const [id, key] of Object.entries(fieldsMap)) {
-        document.getElementById(id).value = characterData[key] ?? "";
+        const inputElement = document.getElementById(id);
+        inputElement.value = characterData[key] ?? "";
+
+        // If it's a core attribute score field, calculate and render its modifier display immediately
+        if (attributesList.includes(key)) {
+            updateModifierDisplay(key, inputElement.value || 10);
+        }
     }
 
     renderAbilitiesList();
 }
 
-// Attach event listeners to catch user edits
 function setupInputListeners() {
     for (const [id, key] of Object.entries(fieldsMap)) {
         document.getElementById(id).addEventListener("blur", async (e) => {
             let val = e.target.type === "number" ? Number(e.target.value) : e.target.value;
             await CharacterState.saveField(currentTokenId, key, val);
+
+            // Instantly recalculate modifier badge text values when user shifts typing focus away
+            if (attributesList.includes(key)) {
+                updateModifierDisplay(key, val);
+            }
         });
     }
 
