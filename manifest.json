@@ -1,13 +1,14 @@
 {
   "name": "Custom Character Sheet",
   "version": "1.0.1",
-  "manifest_version": 1.3,
-  "description": "A modular, token-linked character sheet for tracking vitals and stats.",
+  "manifest_version": 1.4,
   "author": "S&M Studio",
+  "description": "A modular, token-linked character sheet for tracking vitals and stats.",
+  "icon": "https://dancrai.github.io/owlbear-character-sheet/logo.jpeg",
   "action": {
     "title": "Character Sheet",
-    "icon": "/icon.svg",
-    "popover": "/index.html",
+    "popover": "https://dancrai.github.io/owlbear-character-sheet/index.html",
+    "icon": "https://dancrai.github.io/owlbear-character-sheet/icon.svg",
     "height": 700,
     "width": 400
   }
